@@ -15,6 +15,7 @@ $digit_number=isset($_GET['digit-number'])?(int)$_GET['digit-number']:'';
 $select_numbers=isset($_GET['number'])?$_GET['number']:'';
 $select_letters=isset($_GET['letters'])?$_GET['letters']:'';
 $select_simbols=isset($_GET['simbols'])?$_GET['simbols']:'';
+$select_repetitions=isset($_GET['repetitions'])?$_GET['repetitions']:'';
 
 
 if($select_numbers=='on') $all_char= array_merge($all_char,$numbers);
@@ -31,14 +32,25 @@ if($form_sent){
     // var_dump( $letters );
     // var_dump( $simbols );
     // var_dump( $digit_number );
+    if(count($all_char)<$digit_number && $select_repetitions==0){
 
-    $password_str=get_rand_password($digit_number,$all_char,$password);
+    }else{
+        if(!$select_repetitions){
+            $password_str=get_unique_rand_password($digit_number,$all_char,$password);
+            
+        } else{
+            $password_str=get_rand_password($digit_number,$all_char,$password);
     
-    session_start();
-    $_SESSION['password']=$password_str;
-    // header('Location: ./newpsw.php');
+        }
+        
+        session_start();
+        $_SESSION['password']=$password_str;
+        header('Location: ./newpsw.php');
+    
+    var_dump($password_str);
+    
+    }
 
-var_dump($password_str);
 
 
 }
@@ -84,6 +96,10 @@ var_dump($password_str);
                             <input type="checkbox" name="simbols" id="simbols" class="form-check-input" <?= $select_simbols? 'checked':''?>>
                         </div>
                 </div>
+                <div class="col">
+                <label for="repetitions" class="form-label">Example range</label>
+                <input type="range" class="form-range" min="0" max="1" value=<?= $select_repetitions? $select_repetitions:0?> id="repetitions" name="repetitions">
+                </div>
                 <div class="col-12">
                     <button class="btn btn-primary">Genera</button>
                     <button type="reset" class="btn btn-secondary">Reset</button>
@@ -91,7 +107,13 @@ var_dump($password_str);
             </form>
         </div>
     </div>
+
+<?php if(count($all_char)<$digit_number && $select_repetitions==0):?>
+    <div class="alert alert-danger mt-3">
+        il numero dev'essere minore di <?= count($all_char)?>
+    </div>
 </div>
+<?php endif;?>
     
 </body>
 </html>
