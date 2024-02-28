@@ -6,11 +6,31 @@ $simbols=explode(' ','! " £ € $ % & / ( ) = ? * _ - . : , ; ç @ # ] [ { }');
 
 // unire i 3 array in uno solo 
 $all_char= array_merge($numbers,$letters,$simbols);
+$password=[];
 
-var_dump( $numbers );
-var_dump( $letters );
-var_dump( $simbols );
-var_dump( $all_char );
+
+$form_sent=!empty($_GET);
+$digit_number=(int)$_GET['digit-number'];
+
+if($form_sent){
+    // var_dump( $numbers );
+    // var_dump( $letters );
+    // var_dump( $simbols );
+    var_dump( $digit_number );
+
+    // gen_rand_password($digit_number, $all_char ,$password);
+    while(count($password)<$digit_number){
+
+        $rand_index=rand(1,87);
+        $password[]=$all_char[$rand_index];
+        // var_dump($rand_index);
+    }
+    $password_str=implode("",$password);
+    // var_dump( $password_str);
+
+
+
+}
 
 
 ?>
@@ -28,8 +48,8 @@ var_dump( $all_char );
 
 <div class="container mt-3">
     <div class="card text-center">
-        <div class="card-header">Titolo password generata</div>
-        <div class="card-body">password generata</div>
+        <div class="card-header">New Password</div>
+        <div class="card-body"><?= $password_str?></div>
     </div>
 
     <div class="card text-center mt-3">
@@ -41,7 +61,7 @@ var_dump( $all_char );
                     <input type="number" name="digit-number" id="digit-number" class="form-control">
                 </div>
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary">Genera</button>
+                    <button class="btn btn-primary">Genera</button>
                     <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
             </form>
