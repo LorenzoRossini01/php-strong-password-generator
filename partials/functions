@@ -3,7 +3,7 @@
 function get_rand_password($length,$char_array,$final_array){
     while(count($final_array)<$length){
 
-        $rand_index=rand(1,87);
+        $rand_index=rand(1,count($char_array)-1);
         $final_array[]=$char_array[$rand_index];
     }
     return implode("",$final_array);
