@@ -8,25 +8,29 @@ $simbols=explode(' ','! " £ € $ % & / ( ) = ? * _ - . : , ; ç @ # ] [ { }');
 $all_char= array_merge($numbers,$letters,$simbols);
 $password=[];
 
-
 $form_sent=!empty($_GET);
-$digit_number=(int)$_GET['digit-number'];
+$digit_number=isset($_GET['digit-number'])?(int)$_GET['digit-number']:'';
+
+function get_rand_password($length,$char_array,$final_array){
+    while(count($final_array)<$length){
+
+        $rand_index=rand(1,87);
+        $final_array[]=$char_array[$rand_index];
+        // var_dump($rand_index);
+    }
+    return implode("",$final_array);
+    // var_dump( $password_str);
+
+}
+
 
 if($form_sent){
     // var_dump( $numbers );
     // var_dump( $letters );
     // var_dump( $simbols );
-    var_dump( $digit_number );
+    // var_dump( $digit_number );
+    $password_str=get_rand_password($digit_number,$all_char,$password);
 
-    // gen_rand_password($digit_number, $all_char ,$password);
-    while(count($password)<$digit_number){
-
-        $rand_index=rand(1,87);
-        $password[]=$all_char[$rand_index];
-        // var_dump($rand_index);
-    }
-    $password_str=implode("",$password);
-    // var_dump( $password_str);
 
 
 
@@ -49,7 +53,7 @@ if($form_sent){
 <div class="container mt-3">
     <div class="card text-center">
         <div class="card-header">New Password</div>
-        <div class="card-body"><?= $password_str?></div>
+        <div class="card-body"><?=$form_sent? $password_str:'###########'?></div>
     </div>
 
     <div class="card text-center mt-3">
@@ -58,7 +62,7 @@ if($form_sent){
             <form method="GET" class="row g-3">
                 <div class="col">
                     <label for="digit-number" class="form-label">Di quanti caratteri sarà composta la tua password</label>
-                    <input type="number" name="digit-number" id="digit-number" class="form-control">
+                    <input type="number" min="4" max="20" name="digit-number" id="digit-number" class="form-control" value=<?= $form_sent? $digit_number:''?>>
                 </div>
                 <div class="col-12">
                     <button class="btn btn-primary">Genera</button>
