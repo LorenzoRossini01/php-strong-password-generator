@@ -1,4 +1,8 @@
 <?php
+
+include_once __DIR__."./partials/functions";
+
+
 // definire array di caratteri possibili da utilizzare 
 $numbers=explode(' ','1 2 3 4 5 6 7 8 9 0');
 $letters=explode(' ','a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z');
@@ -11,17 +15,6 @@ $password=[];
 $form_sent=!empty($_GET);
 $digit_number=isset($_GET['digit-number'])?(int)$_GET['digit-number']:'';
 
-function get_rand_password($length,$char_array,$final_array){
-    while(count($final_array)<$length){
-
-        $rand_index=rand(1,87);
-        $final_array[]=$char_array[$rand_index];
-        // var_dump($rand_index);
-    }
-    return implode("",$final_array);
-    // var_dump( $password_str);
-
-}
 
 
 if($form_sent){
@@ -29,7 +22,12 @@ if($form_sent){
     // var_dump( $letters );
     // var_dump( $simbols );
     // var_dump( $digit_number );
+
     $password_str=get_rand_password($digit_number,$all_char,$password);
+    
+    session_start();
+    $_SESSION['password']=$password_str;
+    header('Location: ./newpsw.php');
 
 
 
@@ -51,10 +49,7 @@ if($form_sent){
 <body>
 
 <div class="container mt-3">
-    <div class="card text-center">
-        <div class="card-header">New Password</div>
-        <div class="card-body"><?=$form_sent? $password_str:'###########'?></div>
-    </div>
+
 
     <div class="card text-center mt-3">
         <div class="card-header">Crea la tua password</div>
