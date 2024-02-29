@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__."./partials/functions";
+include_once __DIR__."./partials/functions.php";
 
 
 // definire array di caratteri possibili da utilizzare 
@@ -27,10 +27,10 @@ if($select_simbols=='on') $all_char= array_merge($all_char,$simbols);
 $password=[];
 
 
+// var_dump( $numbers );
+// var_dump( $letters );
+// var_dump( $simbols );
 if($form_sent){
-    // var_dump( $numbers );
-    // var_dump( $letters );
-    // var_dump( $simbols );
     // var_dump( $digit_number );
     if(count($all_char)<$digit_number && $select_repetitions==0){
 
